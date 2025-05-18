@@ -7,12 +7,16 @@ import os
 app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
 
-# MySQL Configuration
-app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = '123456'  # Change this to your MySQL password
-app.config['MYSQL_DB'] = 'client_management'
-app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
+import os  
+
+# configurações a partir das variáveis de ambiente (Render)
+app.config['MYSQL_HOST'] = os.environ.get('MYSQL_HOST')
+app.config['MYSQL_USER'] = os.environ.get('MYSQL_USER')
+app.config['MYSQL_PASSWORD'] = os.environ.get('MYSQL_PASSWORD')
+app.config['MYSQL_DB'] = os.environ.get('MYSQL_DB')
+app.config['MYSQL_PORT'] = int(os.environ.get('MYSQL_PORT', 3306))
+app.config['MYSQL_CURSORCLASS'] = os.environ.get('MYSQL_CURSORCLASS', 'DictCursor')
+
 
 mysql = MySQL(app)
 
