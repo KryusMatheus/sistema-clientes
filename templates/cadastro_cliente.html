@@ -15,11 +15,11 @@
         <header>
             <h1>Sistema de Gerenciamento de Clientes</h1>
             <nav>
-                <ul>
-                    <li><a href="cadastro_cliente.html" class="active">Cadastrar Cliente</a></li>
-                    <li><a href="lista_clientes.html">Listar Clientes</a></li>
-                </ul>
-            </nav>
+    <ul>
+        <li><a href="{{ url_for('home') }}" class="active">Cadastrar Cliente</a></li>
+        <li><a href="{{ url_for('listar_clientes') }}">Listar Clientes</a></li>
+    </ul>
+</nav>
         </header>
         
         <main>
