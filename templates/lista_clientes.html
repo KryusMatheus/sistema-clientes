@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Clientes</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/png" href="favicon.png">
+</head>
+<body>
+     <video autoplay muted loop playsinline class="bg-video">
+  <source src="fundo.mp4" type="video/mp4">
+
+</video>
+    <div class="container">
+        <header>
+            <h1>Sistema de Gerenciamento de Clientes</h1>
+            <nav>
+                <ul>
+                    <li><a href="cadastro_cliente.html">Cadastrar Cliente</a></li>
+                    <li><a href="lista_clientes.html" class="active">Listar Clientes</a></li>
+                </ul>
+            </nav>
+        </header>
+        
+        <main>
+            <section class="card">
+                <h2>Lista de Clientes</h2>
+                <div class="table-container">
+                    <table id="clientesTable">
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>CPF</th>
+                                <th>Email</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Client data will be inserted here -->
+                        </tbody>
+                    </table>
+                </div>
+                <div id="message" class="message"></div>
+                <div id="loading" class="loading">Carregando...</div>
+            </section>
+        </main>
+        
+        <footer>
+  <p>© 2025 Todos os direitos reservados a Marcos Matheus — Sistema de Gerenciamento de Clientes</p>
+</footer>
+
+    </div>
+
+    <script src="lista_clientes.js"></script>
+</body>
+</html>
