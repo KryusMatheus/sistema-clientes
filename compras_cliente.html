@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compras do Cliente</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/png" href="favicon.png">
+</head>
+<body>
+     <video autoplay muted loop playsinline class="bg-video">
+  <source src="fundo.mp4" type="video/mp4">
+
+</video>
+    <div class="container">
+        <header>
+            <h1>Sistema de Gerenciamento de Clientes</h1>
+            <nav>
+                <ul>
+                    <li><a href="cadastro_cliente.html">Cadastrar Cliente</a></li>
+                    <li><a href="lista_clientes.html">Listar Clientes</a></li>
+                </ul>
+            </nav>
+        </header>
+        
+        <main>
+            <section class="card">
+                <div class="client-info">
+                    <h2>Compras do Cliente: <span id="clienteName">Carregando...</span></h2>
+                    <button id="btnVoltar" class="btn btn-secondary">Voltar para Lista</button>
+                </div>
+                
+                <div class="form-section">
+                    <h3>Nova Compra</h3>
+                    <form id="compraForm">
+                        <div class="form-group">
+                            <label for="data">Data:</label>
+                            <input type="date" id="data" name="data" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="valor_total">Valor Total:</label>
+                            <input type="number" id="valor_total" name="valor_total" step="0.01" min="0.01" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="forma_pagamento">Forma de Pagamento:</label>
+                            <select id="forma_pagamento" name="forma_pagamento" required>
+                                <option value="">Selecione</option>
+                                <option value="Dinheiro">Dinheiro</option>
+                                <option value="Cartão de Crédito">Cartão de Crédito</option>
+                                <option value="Cartão de Débito">Cartão de Débito</option>
+                                <option value="Pix">Pix</option>
+                                <option value="Boleto">Boleto</option>
+                            </select>
+                        </div>
+                        
+                        <input type="hidden" id="compraId" value="">
+                        <input type="hidden" id="clienteId" value="">
+                        
+                        <div class="form-buttons">
+                            <button type="submit" class="btn btn-primary" id="btnSalvar">Salvar</button>
+                            <button type="button" class="btn btn-secondary" id="btnCancelar">Cancelar</button>
+                        </div>
+                    </form>
+                </div>
+                
+                <div class="table-section">
+                    <h3>Histórico de Compras</h3>
+                    <div class="table-container">
+                        <table id="comprasTable">
+                            <thead>
+                                <tr>
+                                    <th>Data</th>
+                                    <th>Valor Total</th>
+                                    <th>Forma de Pagamento</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Purchase data will be inserted here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div id="message" class="message"></div>
+                <div id="loading" class="loading">Carregando...</div>
+            </section>
+        </main>
+        
+       <footer>
+  <p>© 2025 Todos os direitos reservados a Marcos Matheus — Sistema de Gerenciamento de Clientes</p>
+</footer>
+
+    </div>
+
+    <script src="compras_cliente.js"></script>
+</body>
+</html>

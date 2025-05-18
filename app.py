@@ -1,0 +1,163 @@
+from flask import Flask, request, jsonify
+from flask_cors import CORS
+from flask_mysqldb import MySQL
+from datetime import datetime
+import os
+
+app = Flask(__name__)
+CORS(app)  # Enable CORS for all routes
+
+# MySQL Configuration
+app.config['MYSQL_HOST'] = 'localhost'
+app.config['MYSQL_USER'] = 'root'
+app.config['MYSQL_PASSWORD'] = '123456'  # Change this to your MySQL password
+app.config['MYSQL_DB'] = 'client_management'
+app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
+
+mysql = MySQL(app)
+
+# Routes for Cliente
+@app.route('/clientes', methods=['GET', 'POST'])
+def clientes():
+    if request.method == 'GET':
+        cur = mysql.connection.cursor()
+        cur.execute("SELECT * FROM cliente")
+        clientes = cur.fetchall()
+        cur.close()
+        return jsonify(clientes)
+    
+    elif request.method == 'POST':
+        data = request.json
+        nome = data['nome']
+        cpf = data['cpf']
+        email = data['email']
+        
+        cur = mysql.connection.cursor()
+        try:
+            cur.execute("INSERT INTO cliente (nome, cpf, email) VALUES (%s, %s, %s)", 
+                        (nome, cpf, email))
+            mysql.connection.commit()
+            cliente_id = cur.lastrowid
+            cur.close()
+            return jsonify({"id": cliente_id, "message": "Cliente cadastrado com sucesso!"}), 201
+        except Exception as e:
+            mysql.connection.rollback()
+            cur.close()
+            return jsonify({"error": str(e)}), 400
+
+@app.route('/clientes/<int:id>', methods=['GET', 'PUT', 'DELETE'])
+def cliente(id):
+    cur = mysql.connection.cursor()
+    
+    if request.method == 'GET':
+        cur.execute("SELECT * FROM cliente WHERE id = %s", (id,))
+        cliente = cur.fetchone()
+        cur.close()
+        
+        if cliente:
+            return jsonify(cliente)
+        return jsonify({"message": "Cliente não encontrado"}), 404
+    
+    elif request.method == 'PUT':
+        data = request.json
+        nome = data['nome']
+        cpf = data['cpf']
+        email = data['email']
+        
+        try:
+            cur.execute("UPDATE cliente SET nome = %s, cpf = %s, email = %s WHERE id = %s", 
+                        (nome, cpf, email, id))
+            mysql.connection.commit()
+            cur.close()
+            return jsonify({"message": "Cliente atualizado com sucesso!"})
+        except Exception as e:
+            mysql.connection.rollback()
+            cur.close()
+            return jsonify({"error": str(e)}), 400
+    
+    elif request.method == 'DELETE':
+        try:
+            cur.execute("DELETE FROM cliente WHERE id = %s", (id,))
+            mysql.connection.commit()
+            cur.close()
+            return jsonify({"message": "Cliente excluído com sucesso!"})
+        except Exception as e:
+            mysql.connection.rollback()
+            cur.close()
+            return jsonify({"error": str(e)}), 400
+
+# Routes for Compra
+@app.route('/compras', methods=['POST'])
+def criar_compra():
+    data = request.json
+    data_compra = data['data']
+    valor_total = data['valor_total']
+    forma_pagamento = data['forma_pagamento']
+    cliente_id = data['cliente_id']
+    
+    cur = mysql.connection.cursor()
+    try:
+        cur.execute("INSERT INTO compra (data, valor_total, forma_pagamento, cliente_id) VALUES (%s, %s, %s, %s)", 
+                    (data_compra, valor_total, forma_pagamento, cliente_id))
+        mysql.connection.commit()
+        compra_id = cur.lastrowid
+        cur.close()
+        return jsonify({"id": compra_id, "message": "Compra registrada com sucesso!"}), 201
+    except Exception as e:
+        mysql.connection.rollback()
+        cur.close()
+        return jsonify({"error": str(e)}), 400
+
+@app.route('/compras/cliente/<int:cliente_id>', methods=['GET'])
+def compras_cliente(cliente_id):
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT * FROM compra WHERE cliente_id = %s", (cliente_id,))
+    compras = cur.fetchall()
+    cur.close()
+    return jsonify(compras)
+
+@app.route('/compras/<int:id>', methods=['GET', 'PUT', 'DELETE'])
+def compra(id):
+    cur = mysql.connection.cursor()
+    
+    if request.method == 'GET':
+        cur.execute("SELECT * FROM compra WHERE id = %s", (id,))
+        compra = cur.fetchone()
+        cur.close()
+        
+        if compra:
+            return jsonify(compra)
+        return jsonify({"message": "Compra não encontrada"}), 404
+    
+    elif request.method == 'PUT':
+        data = request.json
+        data_compra = data['data']
+        valor_total = data['valor_total']
+        forma_pagamento = data['forma_pagamento']
+        
+        try:
+            cur.execute("UPDATE compra SET data = %s, valor_total = %s, forma_pagamento = %s WHERE id = %s", 
+                        (data_compra, valor_total, forma_pagamento, id))
+            mysql.connection.commit()
+            cur.close()
+            return jsonify({"message": "Compra atualizada com sucesso!"})
+        except Exception as e:
+            mysql.connection.rollback()
+            cur.close()
+            return jsonify({"error": str(e)}), 400
+    
+    elif request.method == 'DELETE':
+        try:
+            cur.execute("DELETE FROM compra WHERE id = %s", (id,))
+            mysql.connection.commit()
+            cur.close()
+            return jsonify({"message": "Compra excluída com sucesso!"})
+        except Exception as e:
+            mysql.connection.rollback()
+            cur.close()
+            return jsonify({"error": str(e)}), 400
+
+if __name__ == '__main__':
+    app.run(debug=True, port=5000)
+
+print("Flask API is running on http://localhost:5000")
