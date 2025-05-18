@@ -158,6 +158,6 @@ def compra(id):
             return jsonify({"error": str(e)}), 400
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    app.run(host="0.0.0.0", port=10000)
 
 print("Flask API is running on http://localhost:5000")
