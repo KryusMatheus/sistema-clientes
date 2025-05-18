@@ -3,8 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+   <source src="{{ url_for('static', filename='fundo.mp4') }}" type="video/mp4">
+   <link rel="icon" href="{{ url_for('static', filename='favicon.png') }}" type="image/png">
     <title>Compras do Cliente</title>
-   <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+   
 </head>
 <body>
      <video autoplay muted loop playsinline class="bg-video">

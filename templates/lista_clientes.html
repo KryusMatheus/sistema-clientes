@@ -3,8 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Clientes</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+   <source src="{{ url_for('static', filename='fundo.mp4') }}" type="video/mp4">
+   <link rel="icon" href="{{ url_for('static', filename='favicon.png') }}" type="image/png">
+    <title>Lista de Clientes</title>
+  
 </head>
 <body>
      <video autoplay muted loop playsinline class="bg-video">
@@ -15,11 +18,11 @@
         <header>
             <h1>Sistema de Gerenciamento de Clientes</h1>
             <nav>
-                <ul>
-                    <li><a href="cadastro_cliente.html">Cadastrar Cliente</a></li>
-                    <li><a href="lista_clientes.html" class="active">Listar Clientes</a></li>
-                </ul>
-            </nav>
+    <ul>
+        <li><a href="{{ url_for('home') }}" class="active">Cadastrar Cliente</a></li>
+        <li><a href="{{ url_for('listar_clientes') }}">Listar Clientes</a></li>
+    </ul>
+</nav>
         </header>
         
         <main>
